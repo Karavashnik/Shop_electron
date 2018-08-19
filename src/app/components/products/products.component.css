@@ -1,0 +1,26 @@
+.table-wrapper {
+  max-height: 500px;
+}
+
+table {
+  width: 100%;
+}
+
+table tr {
+  height: 22px;
+}
+
+table th {
+  font-size: 14px;
+}
+
+table td {
+  font-size: 13px;
+}
+
+table th,
+table td {
+  padding: 4px;
+  margin: 0;
+}
+

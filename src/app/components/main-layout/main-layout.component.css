@@ -1,0 +1,7 @@
+mat-grid-tile {
+  height: calc(100vh - 30px);
+}
+
+app-sales {
+  width: 100%;
+}

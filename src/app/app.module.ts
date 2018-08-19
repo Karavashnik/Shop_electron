@@ -1,16 +1,51 @@
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
-
 import { AppComponent } from './app.component';
+import { SalesComponent } from './components/sales/sales.component';
+import { AppRoutingModule } from './app-routing.module';
+import {MatPaginatorIntlCro} from './overide/custom-paginator';
+import { MainLayoutComponent } from './components/main-layout/main-layout.component';
+import { MatToolbarModule, MatTableModule,
+  MatPaginatorModule, MatPaginatorIntl,
+  MatSortModule, MatGridListModule, MatInputModule } from '@angular/material';
+import { CurrentSaleComponent } from './components/current-sale/current-sale.component';
+import { ProductsComponent } from './components/products/products.component';
+import {DbService} from './services/db-service';
+import {ProductService} from './services/product.service';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    SalesComponent,
+    MainLayoutComponent,
+    CurrentSaleComponent,
+    ProductsComponent
   ],
   imports: [
-    BrowserModule
+    BrowserModule,
+    BrowserAnimationsModule,
+    MatToolbarModule,
+    AppRoutingModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatSortModule,
+    MatGridListModule,
+    MatInputModule
   ],
-  providers: [],
+  exports: [
+    MatToolbarModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatSortModule,
+    MatGridListModule,
+    MatInputModule
+  ],
+  providers: [
+    { provide: MatPaginatorIntl, useClass: MatPaginatorIntlCro},
+    DbService,
+    ProductService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
