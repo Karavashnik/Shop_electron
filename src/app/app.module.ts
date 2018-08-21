@@ -6,9 +6,11 @@ import { SalesComponent } from './components/sales/sales.component';
 import { AppRoutingModule } from './app-routing.module';
 import {MatPaginatorIntlCro} from './overide/custom-paginator';
 import { MainLayoutComponent } from './components/main-layout/main-layout.component';
-import { MatToolbarModule, MatTableModule,
+import {
+  MatToolbarModule, MatTableModule,
   MatPaginatorModule, MatPaginatorIntl,
-  MatSortModule, MatGridListModule, MatInputModule } from '@angular/material';
+  MatSortModule, MatGridListModule, MatInputModule, MatCheckboxModule, MatButtonModule
+} from '@angular/material';
 import { CurrentSaleComponent } from './components/current-sale/current-sale.component';
 import { ProductsComponent } from './components/products/products.component';
 import {DbService} from './services/db-service';
@@ -31,7 +33,9 @@ import {ProductService} from './services/product.service';
     MatPaginatorModule,
     MatSortModule,
     MatGridListModule,
-    MatInputModule
+    MatInputModule,
+    MatCheckboxModule,
+    MatButtonModule
   ],
   exports: [
     MatToolbarModule,
@@ -39,7 +43,9 @@ import {ProductService} from './services/product.service';
     MatPaginatorModule,
     MatSortModule,
     MatGridListModule,
-    MatInputModule
+    MatInputModule,
+    MatCheckboxModule,
+    MatButtonModule
   ],
   providers: [
     { provide: MatPaginatorIntl, useClass: MatPaginatorIntlCro},

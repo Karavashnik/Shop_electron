@@ -10,7 +10,8 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "electron": "electron .",
-    "electron-build": "ng build --base-href ./  && electron ."
+    "electron-build": "ng build --base-href ./  && electron .",
+    "electron-build-aot": "ng build --base-href ./ --aot  && electron ."
   },
   "private": true,
   "dependencies": {
