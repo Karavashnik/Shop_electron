@@ -6,6 +6,6 @@ export class SaleModel {
     this.Count = count;
   }
   Product: ProductsModel;
-  DiscountPrice: number;
+  DiscountPrice: number = null;
   Count: number;
 }

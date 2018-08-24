@@ -9,7 +9,7 @@ import { MainLayoutComponent } from './components/main-layout/main-layout.compon
 import {
   MatToolbarModule, MatTableModule,
   MatPaginatorModule, MatPaginatorIntl,
-  MatSortModule, MatGridListModule, MatInputModule, MatCheckboxModule, MatButtonModule
+  MatSortModule, MatGridListModule, MatInputModule, MatCheckboxModule, MatButtonModule, MatIconModule
 } from '@angular/material';
 import { CurrentSaleComponent } from './components/current-sale/current-sale.component';
 import { ProductsComponent } from './components/products/products.component';
@@ -41,7 +41,8 @@ import {FormsModule} from '@angular/forms';
     MatButtonModule,
     MatFormFieldModule,
     MatSelectModule,
-    FormsModule
+    FormsModule,
+    MatIconModule
   ],
   exports: [
     MatToolbarModule,
@@ -54,7 +55,8 @@ import {FormsModule} from '@angular/forms';
     MatButtonModule,
     MatFormFieldModule,
     MatSelectModule,
-    FormsModule
+    FormsModule,
+    MatIconModule
   ],
   providers: [
     { provide: MatPaginatorIntl, useClass: MatPaginatorIntlCro},

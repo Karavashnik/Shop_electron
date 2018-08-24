@@ -13,21 +13,25 @@ import {SaleModel} from '../../models/sale.model';
 export class ProductsComponent implements OnInit  {
   displayedColumns: string[] = ['№', 'Id', 'Description', 'Price', 'ProviderDescription'];
   table: TableParams<ProductsModel>;
+  filteredTable: TableParams<ProductsModel>;
   onAddToCard = new EventEmitter<SaleModel>();
-  idFilter: number
-  descriptionFilter: string;
-  priceFilter: number;
-  providerDescriptionFilter: string;
-  selectedPriceRange = '=';
+  isFiltering: boolean;
+  idFilter: number = null;
+  descriptionFilter: string = null;
+  priceFilter: number = null;
+  providerDescriptionFilter: string = null;
+  selectedPriceRange: Direction  = Direction.Equally;
 
   constructor(private readonly productsService: ProductService) {
     this.table = new TableParams<ProductsModel>();
+    this.filteredTable = new TableParams<ProductsModel>();
 
     this.getTotalCount();
     this.getProducts();
   }
 
   ngOnInit() {
+
   }
 
   getTotalCount () {
@@ -59,9 +63,23 @@ export class ProductsComponent implements OnInit  {
       this.table.orderBy = event.active;
       this.getProducts();
   }
-  filterById(filterValue: number){
-    //this.table.data.filter(this.filterId);
-    //this.getProducts();
+  filterData() {
+    this.filteredTable.data = this.table.data;
+    if (this.idFilter) { this.filteredTable.data = this.table.data.filter(product => product.Id === this.idFilter); }
+    if (this.descriptionFilter) { this.filteredTable.data = this.filteredTable.data.filter( product =>
+      product.Description.toLowerCase().indexOf(this.descriptionFilter.toLowerCase()) !== -1); }
+    if (this.priceFilter) { this.filteredTable.data = this.filteredTable.data.filter( product =>
+       this.selectedPriceRange === Direction.Equally ? product.Price === this.priceFilter :
+       this.selectedPriceRange === Direction.Less ? product.Price <= this.priceFilter :
+       product.Price >= this.priceFilter); }
+    if (this.providerDescriptionFilter) {
+       this.filteredTable.data = this.filteredTable.data.filter(product =>
+       product.ProviderDescription.toLowerCase().indexOf(this.providerDescriptionFilter.toLowerCase()) !== -1);
+    }
+    this.isFiltering = true;
+  }
+  removeFilterData(){
+    this.isFiltering = false;
   }
 
   addToCard(product: ProductsModel, count: number) {
@@ -90,4 +108,9 @@ export class ProductsComponent implements OnInit  {
     value--;
     this.setInputValueById(id, value);
   }
+}
+enum Direction {
+  Equally = '=',
+  Less = '<',
+  More = '>',
 }

@@ -11,21 +11,30 @@ export class CurrentSaleComponent implements OnInit {
 
   displayedColumns: string[] = ['Id', 'Description', 'Price', 'DiscountPrice', 'Count', 'TotalPrice'];
   sales: TableParams<SaleModel>;
-  //sales = new Array<SaleModel>();
-  constructor(private changeDetectorRefs: ChangeDetectorRef) {
+  constructor() {
     this.sales = new TableParams<SaleModel>();
   }
 
   ngOnInit() {
   }
-  refresh() {
-    this.changeDetectorRefs.detectChanges();
-  }
-  increaseCount(element: SaleModel){
+  increaseCount(element: SaleModel) {
     element.Count++;
   }
-  decreaseCount(element: SaleModel){
+  decreaseCount(element: SaleModel) {
     element.Count--;
+  }
+  getTotalSaleCost(element: SaleModel): number {
+    return element.DiscountPrice ? element.DiscountPrice * element.Count : element.Product.Price * element.Count;
+  }
+  getTotalCount(): number {
+    return this.sales.data.map(t => t.Count).reduce((acc, value) => acc + value, 0);
+  }
+  getTotalCost(): number {
+    let totalCost;
+    for (let sale of this.sales.data) {
+      totalCost += this.getTotalSaleCost(sale);
+    }
+    return totalCost;
   }
 
 
