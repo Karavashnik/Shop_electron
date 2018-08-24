@@ -14,8 +14,9 @@ export class MainLayoutComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    this.appProducts.onAddToCard.subscribe(product => {
-      this.appCurrentSale.products.push(product);
+    this.appProducts.onAddToCard.subscribe(sale => {
+      this.appCurrentSale.sales.data.push(sale);
+      this.appCurrentSale.refresh();
     });
   }
 

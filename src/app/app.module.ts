@@ -15,6 +15,9 @@ import { CurrentSaleComponent } from './components/current-sale/current-sale.com
 import { ProductsComponent } from './components/products/products.component';
 import {DbService} from './services/db-service';
 import {ProductService} from './services/product.service';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatSelectModule} from '@angular/material/select';
+import {FormsModule} from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -35,7 +38,10 @@ import {ProductService} from './services/product.service';
     MatGridListModule,
     MatInputModule,
     MatCheckboxModule,
-    MatButtonModule
+    MatButtonModule,
+    MatFormFieldModule,
+    MatSelectModule,
+    FormsModule
   ],
   exports: [
     MatToolbarModule,
@@ -45,7 +51,10 @@ import {ProductService} from './services/product.service';
     MatGridListModule,
     MatInputModule,
     MatCheckboxModule,
-    MatButtonModule
+    MatButtonModule,
+    MatFormFieldModule,
+    MatSelectModule,
+    FormsModule
   ],
   providers: [
     { provide: MatPaginatorIntl, useClass: MatPaginatorIntlCro},

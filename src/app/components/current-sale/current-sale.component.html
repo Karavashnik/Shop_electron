@@ -1,5 +1,62 @@
-<ul>
-  <li *ngFor="let pr of products;">
-    {{ pr.Description }}
-  </li>
-</ul>
+<div class="table-wrapper">
+  <table mat-table matSort [dataSource]="sales.data" class="mat-elevation-z8">
+
+    <!--- Note that these columns can be defined in any order.
+          The actual rendered columns are set as a property on the row definition" -->
+
+    <!-- Id Column -->
+    <ng-container matColumnDef="Id">
+      <th mat-header-cell *matHeaderCellDef sticky>
+        <div>No.</div>
+      </th>
+      <td mat-cell *matCellDef="let element">
+        <span>{{element.Product.Id}}</span>
+      </td>
+    </ng-container>
+
+    <!-- Description Column -->
+    <ng-container matColumnDef="Description">
+      <th mat-header-cell *matHeaderCellDef sticky>
+        <div>Описание товара</div>
+      </th>
+      <td mat-cell *matCellDef="let element">{{element.Product.Description}}</td>
+    </ng-container>
+
+    <!-- Price Column -->
+    <ng-container matColumnDef="Price">
+      <th mat-header-cell *matHeaderCellDef sticky>Цена</th>
+      <td mat-cell *matCellDef="let element"> {{element.Product.Price}} </td>
+    </ng-container>
+
+    <!-- Discount Price Column -->
+    <ng-container matColumnDef="DiscountPrice">
+      <th mat-header-cell *matHeaderCellDef sticky>Цена со скидкой</th>
+      <td mat-cell *matCellDef="let element"> {{element.DiscountPrice}} </td>
+    </ng-container>
+
+
+    <!-- Count Column -->
+    <ng-container matColumnDef="Count">
+      <th mat-header-cell *matHeaderCellDef sticky>
+        Количество
+      </th>
+      <td mat-cell *matCellDef="let element" >
+        <button class="change-count-btn" mat-raised-button color="basic" (click)="decreaseCount(element)">-</button>
+        <mat-form-field class="count-form"><input matInput type="number" minlength="1" [(ngModel)]="element.Count"></mat-form-field>
+        <button class="change-count-btn" mat-raised-button color="basic" (click)="increaseCount(element)">+</button>
+      </td>
+    </ng-container>
+
+    <!-- Total Price Column -->
+    <ng-container matColumnDef="TotalPrice">
+      <th mat-header-cell *matHeaderCellDef sticky>Итоговая цена</th>
+      <td mat-cell *matCellDef="let element"> {{element.Product.Price * element.Count}} </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"
+        class="first-header-row"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+
+  </table>
+</div>

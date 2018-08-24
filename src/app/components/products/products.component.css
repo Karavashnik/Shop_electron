@@ -25,4 +25,37 @@ table td {
   padding: 4px;
   margin: 0;
 }
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.change-count-btn{
+  font-size: 12px;
+  height: 22px;
+  width: 22px;
+  min-width: 22px;
+  line-height: normal;
+  margin: 0 5px;
+  padding: 0;
+  text-align: center;
+}
+.count-form{
+  width: 35px;
+  height: 22px;
+  font-size: 12px;
+  text-align: center;
+  line-height: normal;
+}
+.first-header-row th {
+  border-bottom: none;
+}
+.second-header-row th{
+  height: 5vh;
+}
+.select-price-range{
+  width: 30px;
+}
+.price-filter>th{
 
+}
