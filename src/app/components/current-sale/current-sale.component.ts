@@ -1,20 +1,24 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
-import {SaleModel} from '../../models/sale.model';
-import {TableParams} from '../../models/table-params';
+import {Component, OnInit, ViewChild} from '@angular/core';
+import {DiscountType, SaleModel} from '../../models/sale.model';
+import {MatTableDataSource} from '@angular/material';
 
 @Component({
   selector: 'app-current-sale',
   templateUrl: './current-sale.component.html',
   styleUrls: ['./current-sale.component.css']
 })
+
 export class CurrentSaleComponent implements OnInit {
 
-  displayedColumns: string[] = ['Id', 'Description', 'Price', 'DiscountPrice', 'Count', 'TotalPrice'];
-  sales: TableParams<SaleModel>;
-  constructor() {
-    this.sales = new TableParams<SaleModel>();
-  }
+  DiscountType: typeof DiscountType = DiscountType;
 
+  displayedColumns: string[] = ['Id', 'Description', 'Price', 'DiscountPrice', 'Count', 'TotalPrice'];
+  sales: MatTableDataSource<SaleModel>;
+
+  constructor() {
+    this.sales = new MatTableDataSource<SaleModel>();
+
+  }
   ngOnInit() {
   }
   increaseCount(element: SaleModel) {
@@ -24,18 +28,17 @@ export class CurrentSaleComponent implements OnInit {
     element.Count--;
   }
   getTotalSaleCost(element: SaleModel): number {
-    return element.DiscountPrice ? element.DiscountPrice * element.Count : element.Product.Price * element.Count;
+    return element.NewPrice * element.Count;
   }
   getTotalCount(): number {
     return this.sales.data.map(t => t.Count).reduce((acc, value) => acc + value, 0);
   }
   getTotalCost(): number {
-    let totalCost;
-    for (let sale of this.sales.data) {
+    let totalCost = 0;
+    for (const sale of this.sales.data) {
       totalCost += this.getTotalSaleCost(sale);
     }
     return totalCost;
   }
-
-
 }
+

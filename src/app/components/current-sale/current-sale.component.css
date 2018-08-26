@@ -1,0 +1,48 @@
+/* Columns */
+.id-column{
+  width: 2vw;
+}
+.description-column{
+  width: 10vw;
+}
+.price-column{
+  width: 3vw;
+}
+.discount-price-column{
+  width: 5vw;
+}
+.count-column{
+  width: 6vw;
+}
+.total-price-column{
+  width: 2vw;
+}
+
+.select-discount-type{
+  width: 2vw;
+}
+
+/* Count Cells */
+.change-count-btn{
+  font-size: 12px;
+  height: 22px;
+  width: 22px;
+  min-width: 22px;
+  line-height: normal;
+  margin: 0 5px;
+  padding: 0;
+  text-align: center;
+}
+.count-form{
+  width: 2vw;
+  height: 22px;
+  font-size: 12px;
+  text-align: center;
+  line-height: normal;
+}
+/* Disable input's arrows */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}

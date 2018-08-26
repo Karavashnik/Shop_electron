@@ -95,7 +95,7 @@ export class ProductsComponent implements OnInit  {
     return value;
   }
   setInputValueById(id: number, value: number): void {
-    if (value <= 0 || value == null) { value = 1;}
+    if (value <= 0 || value == null) { value = 1; }
     (<HTMLInputElement>document.getElementById('product-count-' + id)).value = String(value);
   }
   increaseCount(id: number): void {

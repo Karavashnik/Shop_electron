@@ -49,11 +49,45 @@ table td {
   padding: 4px;
   margin: 0;
 }
+/* Disable input's arrows */
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
+/* Columns */
+.sell-column{
+  width: 12vw;
+}
+.id-column{
+  width: 4vw;
+}
+.description-column{
+  width: 32vw;
+}
+.price-column{
+  width: 8vw;
+}
+.provider-description-column{
+  width: 10vw;
+}
+/* Filter Forms */
+.id-filter-form{
+  width: 4vw;
+}
+.description-filter-form{
+  width: 32vw;
+}
+.price-filter-form{
+  width: 5.5vw;
+}
+.select-price-range{
+  width: 1.5vw;
+}
+.provider-description-filter-form{
+  width: 10vw;
+}
+/* Sell Cells */
 .change-count-btn{
   font-size: 12px;
   height: 22px;
@@ -71,15 +105,10 @@ input::-webkit-inner-spin-button {
   text-align: center;
   line-height: normal;
 }
+/* Table Headers */
 .first-header-row th {
   border-bottom: none;
 }
 .second-header-row th{
   height: 5vh;
-}
-.select-price-range{
-  width: 30px;
-}
-.price-filter>th{
-
 }
