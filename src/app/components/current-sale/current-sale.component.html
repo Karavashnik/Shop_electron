@@ -30,9 +30,6 @@
       <th mat-header-cell *matHeaderCellDef class="discount-price-column">Скидка</th>
       <td mat-cell *matCellDef="let element" class="discount-price-column">
         <mat-form-field class="count-form">
-          <!--<input matInput type="number" minlength="1"-->
-                 <!--[(ngModel)]="element.DiscountType === DiscountType.Percent ? element.DiscountPercent : -->
-                 <!--element.DiscountType === DiscountType.NewPrice ? element.NewPrice : element.DiscountPrice">-->
           <input matInput type="number" minlength="1" *ngIf="element.DiscountType === DiscountType.Percent"
                  [(ngModel)]="element.DiscountPercent">
           <input matInput type="number" minlength="1" *ngIf="element.DiscountType === DiscountType.NewPrice"
@@ -65,8 +62,8 @@
     <!-- Total Price Column -->
     <ng-container matColumnDef="TotalPrice">
       <th mat-header-cell *matHeaderCellDef sticky class="total-price-column">Итого</th>
-      <td mat-cell *matCellDef="let element" class="total-price-column"> {{getTotalSaleCost(element)}} </td>
-      <td mat-footer-cell *matFooterCellDef class="total-price-column"> {{getTotalCost() | currency}} </td>
+      <td mat-cell *matCellDef="let element" class="total-price-column"> {{getTotalSaleCost(element) | currency:'BYN':' ':'0.0-2' }} </td>
+      <td mat-footer-cell *matFooterCellDef class="total-price-column"> {{getTotalCost() | currency:'BYN':'BYN ':'0.0-2'}} </td>
     </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns"

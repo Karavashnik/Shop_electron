@@ -1,2 +1,6 @@
-<mat-toolbar id="app-header" color="primary">My App</mat-toolbar>
+<mat-toolbar id="app-header" color="primary">
+  <button (click)="goToLink('')">Главная</button>
+  <button (click)="goToLink('providers')">Поставщики</button>
+  <button (click)="goToLink('sales')">Продажи</button>
+</mat-toolbar>
 <router-outlet></router-outlet>

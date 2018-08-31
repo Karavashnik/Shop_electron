@@ -9,7 +9,7 @@ import { MainLayoutComponent } from './components/main-layout/main-layout.compon
 import {
   MatToolbarModule, MatTableModule,
   MatPaginatorModule, MatPaginatorIntl,
-  MatSortModule, MatGridListModule, MatInputModule, MatCheckboxModule, MatButtonModule, MatIconModule
+  MatSortModule, MatGridListModule, MatInputModule, MatCheckboxModule, MatButtonModule, MatIconModule, MatDialogModule
 } from '@angular/material';
 import { CurrentSaleComponent } from './components/current-sale/current-sale.component';
 import { ProductsComponent } from './components/products/products.component';
@@ -18,6 +18,12 @@ import {ProductService} from './services/product.service';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatSelectModule} from '@angular/material/select';
 import {FormsModule} from '@angular/forms';
+import { ProductFormComponent } from './components/product-form/product-form.component';
+import { ProvidersComponent } from './components/providers/providers.component';
+import { ProvidersFormComponent } from './components/providers-form/providers-form.component';
+import {ProvidersService} from './services/providers.service';
+import { ColorSketchModule } from 'ngx-color/sketch';
+import { ColorCircleModule } from 'ngx-color/circle';
 
 @NgModule({
   declarations: [
@@ -25,7 +31,14 @@ import {FormsModule} from '@angular/forms';
     SalesComponent,
     MainLayoutComponent,
     CurrentSaleComponent,
-    ProductsComponent
+    ProductsComponent,
+    ProductFormComponent,
+    ProvidersComponent,
+    ProvidersFormComponent
+  ],
+  entryComponents: [
+    ProductFormComponent,
+    ProvidersFormComponent
   ],
   imports: [
     BrowserModule,
@@ -42,7 +55,10 @@ import {FormsModule} from '@angular/forms';
     MatFormFieldModule,
     MatSelectModule,
     FormsModule,
-    MatIconModule
+    MatIconModule,
+    MatDialogModule,
+    ColorSketchModule,
+    ColorCircleModule
   ],
   exports: [
     MatToolbarModule,
@@ -56,12 +72,16 @@ import {FormsModule} from '@angular/forms';
     MatFormFieldModule,
     MatSelectModule,
     FormsModule,
-    MatIconModule
+    MatIconModule,
+    MatDialogModule,
+    ColorSketchModule,
+    ColorCircleModule
   ],
   providers: [
     { provide: MatPaginatorIntl, useClass: MatPaginatorIntlCro},
     DbService,
-    ProductService
+    ProductService,
+    ProvidersService
   ],
   bootstrap: [AppComponent]
 })

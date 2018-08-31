@@ -1,25 +1,32 @@
 /* Columns */
 .id-column{
   width: 2vw;
+  max-width: 2vw;
 }
 .description-column{
   width: 10vw;
+  max-width: 10vw;
 }
 .price-column{
   width: 3vw;
+  max-width: 3vw;
 }
 .discount-price-column{
   width: 5vw;
+  max-width: 5vw;
 }
 .count-column{
   width: 6vw;
+  max-width: 6vw;
 }
 .total-price-column{
   width: 2vw;
+  max-width: 2vw;
 }
 
 .select-discount-type{
   width: 2vw;
+  max-width: 2vw;
 }
 
 /* Count Cells */

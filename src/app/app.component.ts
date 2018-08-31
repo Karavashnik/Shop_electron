@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { DbService } from './services/db-service';
+import {Component} from '@angular/core';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -7,7 +7,12 @@ import { DbService } from './services/db-service';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  constructor() {
 
+  constructor(private readonly router: Router) {
   }
+
+ goToLink(url: string) {
+  this.router.navigate([url]);
+ }
+
 }

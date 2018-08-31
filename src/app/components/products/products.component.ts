@@ -1,9 +1,10 @@
-import {Component, OnInit, EventEmitter} from '@angular/core';
+import {Component, OnInit, EventEmitter, ViewChild} from '@angular/core';
 import {ProductService} from '../../services/product.service';
-import {TableParams} from '../../models/table-params';
 import {ProductsModel} from '../../models/products.model';
-import {Sort} from '@angular/material/sort/typings/sort';
 import {SaleModel} from '../../models/sale.model';
+import {MatDialog, MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
+import {Filters, PriceRange} from '../../models/filters';
+import {ProductFormComponent} from '../product-form/product-form.component';
 
 @Component({
   selector: 'app-products',
@@ -11,33 +12,34 @@ import {SaleModel} from '../../models/sale.model';
   styleUrls: ['./products.component.css']
 })
 export class ProductsComponent implements OnInit  {
-  displayedColumns: string[] = ['№', 'Id', 'Description', 'Price', 'ProviderDescription'];
-  table: TableParams<ProductsModel>;
-  filteredTable: TableParams<ProductsModel>;
+
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
+  PriceRange: typeof PriceRange = PriceRange;
+
+  displayedColumns: string[] = ['№', 'Id', 'Description', 'Price', 'ProviderDescription', 'Edit'];
+  displayedFilterColumns: string[] =
+    ['Sell-filter', 'No-filter', 'Description-filter', 'Price-filter', 'ProviderDescription-filter', 'Edit-filter'];
+  table: MatTableDataSource<ProductsModel>;
+  filters: Filters;
   onAddToCard = new EventEmitter<SaleModel>();
-  isFiltering: boolean;
-  idFilter: number = null;
-  descriptionFilter: string = null;
-  priceFilter: number = null;
-  providerDescriptionFilter: string = null;
-  selectedPriceRange: Direction  = Direction.Equally;
 
-  constructor(private readonly productsService: ProductService) {
-    this.table = new TableParams<ProductsModel>();
-    this.filteredTable = new TableParams<ProductsModel>();
+  constructor(private readonly productsService: ProductService, public dialog: MatDialog) {
 
-    this.getTotalCount();
-    this.getProducts();
   }
 
   ngOnInit() {
-
+    this.table = new MatTableDataSource<ProductsModel>();
+    this.setPageSizeOptions();
+    this.filters = new Filters();
+    this.getTotalCount();
+    this.getProducts();
   }
 
   getTotalCount () {
     this.productsService.getTotalCount().subscribe(
       (data) => {
-        this.table.totalCount = data.results[0].count;
+        this.table.paginator.length = data.results[0].count;
       },
       (error) => {console.log('(error) error: ' + error); },
       () => {console.log('(complete)'); });
@@ -51,37 +53,56 @@ export class ProductsComponent implements OnInit  {
       },
       (error) => {console.log('(error) error: ' + error); },
       () => {console.log('(complete)'); });
+    this.table._updateChangeSubscription();
   }
 
   onPaginationChange() {
-    this.getProducts();
+    if (!this.filters.isFiltering) {
+      this.getProducts();
+    } else {
+      this.filterData();
+    }
+  }
+  setPageSizeOptions() {
+    this.paginator.pageIndex = 0;
+    this.paginator.length = 100;
+    this.paginator.pageSize = 50;
+    this.paginator.pageSizeOptions = [10, 25, 50, 75, 100];
+    this.sort.active = 'Id';
+    this.sort.direction = 'desc';
+    this.table.paginator = this.paginator;
+    this.table.sort = this.sort;
   }
 
-  sortData(event: Sort) {
+  sortData(event: MatSort) {
       if (event.active === '№' || event.direction === '') { return; }
-      this.table.direction = event.direction;
-      this.table.orderBy = event.active;
+      this.table.sort.direction = event.direction;
+      this.table.sort.active = event.active;
       this.getProducts();
   }
   filterData() {
-    this.filteredTable.data = this.table.data;
-    if (this.idFilter) { this.filteredTable.data = this.table.data.filter(product => product.Id === this.idFilter); }
-    if (this.descriptionFilter) { this.filteredTable.data = this.filteredTable.data.filter( product =>
-      product.Description.toLowerCase().indexOf(this.descriptionFilter.toLowerCase()) !== -1); }
-    if (this.priceFilter) { this.filteredTable.data = this.filteredTable.data.filter( product =>
-       this.selectedPriceRange === Direction.Equally ? product.Price === this.priceFilter :
-       this.selectedPriceRange === Direction.Less ? product.Price <= this.priceFilter :
-       product.Price >= this.priceFilter); }
-    if (this.providerDescriptionFilter) {
-       this.filteredTable.data = this.filteredTable.data.filter(product =>
-       product.ProviderDescription.toLowerCase().indexOf(this.providerDescriptionFilter.toLowerCase()) !== -1);
-    }
-    this.isFiltering = true;
+    this.productsService.getFilterProducts(this.table, this.filters).subscribe(
+      (data) => {
+        this.table.data = data.results;
+      }, (error) => {console.log('(error) error: ' + error); },
+      () => {console.log('(complete)'); });
+    this.filters.isFiltering = true;
+    this.table._updateChangeSubscription();
   }
-  removeFilterData(){
-    this.isFiltering = false;
+  removeFilterData() {
+    //this.isFiltering = false;
   }
+  openDialog(product: ProductsModel): void {
+    const dialogRef = this.dialog.open(ProductFormComponent, {
+      width: '80%',
+      data: product
+    });
 
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+      //this.animal = result;
+    });
+  }
   addToCard(product: ProductsModel, count: number) {
     const sale: SaleModel = new SaleModel(product, count);
     this.onAddToCard.emit(sale);
@@ -109,8 +130,4 @@ export class ProductsComponent implements OnInit  {
     this.setInputValueById(id, value);
   }
 }
-enum Direction {
-  Equally = '=',
-  Less = '<',
-  More = '>',
-}
+

@@ -1,0 +1,16 @@
+<div>
+  <h2>Добавление поставщика</h2>
+  <div class="provider-fields">
+    <mat-form-field><input placeholder="Описание" matInput type="text" [(ngModel)]="provider.Description" required></mat-form-field>
+    <mat-form-field><input placeholder="Адрес" matInput type="text" [(ngModel)]="provider.Address"></mat-form-field>
+    <mat-form-field><input placeholder="Телефон" matInput type="text" [(ngModel)]="provider.Phone"></mat-form-field>
+    <color-circle
+      [width]="1000"
+      (onChangeComplete)="changeComplete($event)"
+    ></color-circle>
+    <div class="provider-buttons">
+      <button mat-raised-button color="Accent" (click)="saveProvider()">Сохранить</button>
+      <button mat-raised-button color="Warn" (click)="onNoClick()">Отменить</button>
+    </div>
+  </div>
+</div>

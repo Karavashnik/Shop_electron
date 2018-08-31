@@ -1,5 +1,5 @@
 <div class="table-wrapper">
-  <table mat-table matSort [dataSource]=" !isFiltering ? table.data : filteredTable.data" class="mat-elevation-z8" (matSortChange)="sortData($event)">
+  <table mat-table matSort [dataSource]="table.data" class="mat-elevation-z8" (matSortChange)="sortData($event)">
 
     <!--- Note that these columns can be defined in any order.
           The actual rendered columns are set as a property on the row definition" -->
@@ -10,10 +10,12 @@
         Продать
       </th>
       <td mat-cell *matCellDef="let element" class="sell-column">
-        <button mat-flat-button color="primary" (click)="addToCard(element, getInputValueById(element.Id))">Добавить</button>
-        <button class="change-count-btn" mat-raised-button color="basic" (click)="decreaseCount(element.Id)">-</button>
-        <mat-form-field class="count-form"><input id="product-count-{{element.Id}}" matInput type="number" minlength="1" value="1" required></mat-form-field>
-        <button class="change-count-btn" mat-raised-button color="basic" (click)="increaseCount(element.Id)">+</button>
+        <button class="sell-button" mat-flat-button color="primary" (click)="addToCard(element, getInputValueById(element.Id))">Добавить</button>
+        <div>
+          <button class="change-count-btn" mat-raised-button color="basic" (click)="decreaseCount(element.Id)">-</button>
+          <mat-form-field class="count-form"><input id="product-count-{{element.Id}}" matInput type="number" minlength="1" value="1" required></mat-form-field>
+          <button class="change-count-btn" mat-raised-button color="basic" (click)="increaseCount(element.Id)">+</button>
+        </div>
       </td>
     </ng-container>
 
@@ -47,6 +49,23 @@
       <td mat-cell *matCellDef="let element" class="provider-description-column"> {{element.ProviderDescription}} </td>
     </ng-container>
 
+    <!-- Edit Column -->
+    <ng-container matColumnDef="Edit">
+      <th mat-header-cell *matHeaderCellDef class="edit-column">
+        <button mat-button matSuffix mat-icon-button (click)="openDialog(null)">
+          <mat-icon>add</mat-icon>
+        </button>
+      </th>
+      <td mat-cell *matCellDef="let element" class="edit-column">
+        <button mat-button matSuffix mat-icon-button (click)="openDialog(element)">
+          <mat-icon>edit</mat-icon>
+        </button>
+        <button mat-button matSuffix mat-icon-button (click)="openDialog(element)">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+
     <!-- Filter Columns-->
 
     <!-- Empty Sell Filter -->
@@ -57,8 +76,8 @@
     <ng-container matColumnDef="No-filter">
       <th mat-header-cell *matHeaderCellDef class="id-column">
         <mat-form-field class="id-filter-form">
-          <input placeholder="поиск по id" matInput type="number" (keyup.enter)="filterData()"  [(ngModel)]="idFilter">
-          <button mat-button *ngIf="idFilter" matSuffix mat-icon-button aria-label="Clear" (click)="idFilter=null; filterData()">
+          <input placeholder="поиск по id" matInput type="number" (keyup.enter)="filterData()"  [(ngModel)]="filters.Id">
+          <button mat-button *ngIf="filters.Id" matSuffix mat-icon-button aria-label="Clear" (click)="filters.Id=null; filterData()">
             <mat-icon>close</mat-icon>
           </button>
         </mat-form-field>
@@ -68,8 +87,8 @@
     <ng-container matColumnDef="Description-filter">
       <th mat-header-cell *matHeaderCellDef class="description-column">
         <mat-form-field class="description-filter-form">
-          <input placeholder="поиск по описанию" matInput type="text" (keyup.enter)="filterData()" [(ngModel)]="descriptionFilter">
-          <button mat-button *ngIf="descriptionFilter" matSuffix mat-icon-button aria-label="Clear" (click)="descriptionFilter=null; filterData()">
+          <input placeholder="поиск по описанию" matInput type="text" (keyup.enter)="filterData()" [(ngModel)]="filters.Description">
+          <button mat-button *ngIf="filters.Description" matSuffix mat-icon-button aria-label="Clear" (click)="filters.Description=null; filterData()">
             <mat-icon>close</mat-icon>
           </button>
         </mat-form-field>
@@ -78,36 +97,42 @@
     <!-- Price Filter -->
     <ng-container matColumnDef="Price-filter">
       <th mat-header-cell *matHeaderCellDef class="price-column">
-        <mat-form-field class="price-filter-form">
-          <input placeholder="поиск по цене" matInput type="number" (keyup.enter)="filterData()" [(ngModel)]="priceFilter">
-          <button mat-button *ngIf="priceFilter" matSuffix mat-icon-button aria-label="Clear" (click)="priceFilter=null; filterData()">
-            <mat-icon>close</mat-icon>
-          </button>
-        </mat-form-field>
-        <mat-form-field class="select-price-range">
-          <mat-select [(value)]="selectedPriceRange">
-            <mat-option value="=">=</mat-option>
-            <mat-option value=">">></mat-option>
-            <mat-option value="<"><</mat-option>
-          </mat-select>
-        </mat-form-field>
+        <div>
+          <mat-form-field class="price-filter-form">
+            <input placeholder="поиск по цене" matInput type="number" (keyup.enter)="filterData()" [(ngModel)]="filters.Price">
+            <button mat-button *ngIf="filters.Price" matSuffix mat-icon-button aria-label="Clear" (click)="filters.Price=null; filterData()">
+              <mat-icon>close</mat-icon>
+            </button>
+          </mat-form-field>
+          <mat-form-field class="select-price-range">
+            <mat-select [(value)]="filters.SelectedPriceRange">
+              <mat-option value="{{ PriceRange.Equally }}">=</mat-option>
+              <mat-option value="{{ PriceRange.More }}">></mat-option>
+              <mat-option value="{{ PriceRange.Less }}"><</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
       </th>
     </ng-container>
     <!-- Provider Description Filter -->
     <ng-container matColumnDef="ProviderDescription-filter">
       <th mat-header-cell *matHeaderCellDef class="provider-description-column">
         <mat-form-field class="provider-description-filter-form">
-          <input placeholder="поиск по поставщику" matInput type="text" (keyup.enter)="filterData()" [(ngModel)]="providerDescriptionFilter">
-          <button mat-button *ngIf="providerDescriptionFilter" matSuffix mat-icon-button aria-label="Clear" (click)="providerDescriptionFilter=null; filterData()">
+          <input placeholder="поиск по поставщику" matInput type="text" (keyup.enter)="filterData()" [(ngModel)]="filters.ProviderDescription">
+          <button mat-button *ngIf="filters.ProviderDescription" matSuffix mat-icon-button aria-label="Clear" (click)="filters.ProviderDescription=null; filterData()">
             <mat-icon>close</mat-icon>
           </button>
         </mat-form-field>
       </th>
     </ng-container>
+    <!-- Empty Edit Filter -->
+    <ng-container matColumnDef="Edit-filter">
+      <th mat-header-cell *matHeaderCellDef class="edit-column"></th>
+    </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns"
         class="first-header-row"></tr>
-    <tr mat-header-row *matHeaderRowDef="['Sell-filter','No-filter','Description-filter','Price-filter','ProviderDescription-filter']"
+    <tr mat-header-row *matHeaderRowDef="displayedFilterColumns"
         class="second-header-row">
     </tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
@@ -115,10 +140,10 @@
   </table>
 </div>
 <mat-paginator
-  [length]="table.totalCount"
-  [pageSize]="table.perPage"
-  [pageSizeOptions]="table.perPageOption"
-  [pageIndex]="table.page"
+  [length]="table.paginator.length"
+  [pageSize]="table.paginator.pageSize"
+  [pageSizeOptions]="table.paginator.pageSizeOptions"
+  [pageIndex]="table.paginator.pageIndex"
   (page)="onPaginationChange()"
   showFirstLastButtons>
 </mat-paginator>
