@@ -1,7 +1,9 @@
+import {ProvidersModel} from './providers.model';
+
 export class ProductsModel {
   Id: number;
   Description: string;
   Price: number;
-  ProviderDescription: string;
-  Color: string;
+  //Color: string;
+  Provider: ProvidersModel;
 }

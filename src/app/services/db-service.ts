@@ -33,5 +33,8 @@ export class DbService {
       });
     });
   }
+  query(queryString: string, values?: Array<any>) {
+      this.connection.query (queryString, values);
+  }
 
 }

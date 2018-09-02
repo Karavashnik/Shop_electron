@@ -1,2 +1,17 @@
-<mat-form-field><input type="text" [(ngModel)]="product.Description"></mat-form-field>
-<mat-form-field><input type="number" [(ngModel)]="product.Price"></mat-form-field>
+<h2 mat-dialog-title>Добавление товара</h2>
+<mat-dialog-content class="provider-fields">
+  <mat-form-field><input matInput placeholder="Описание" type="text" maxlength="1000" [(ngModel)]="product.Description" required></mat-form-field>
+  <mat-form-field><input matInput placeholder="Цена" type="number" maxlength="13,2" [(ngModel)]="product.Price" required></mat-form-field>
+  <mat-form-field>
+    <mat-select placeholder="Поставщик" [(value)]="product.Provider" required >
+      <mat-option *ngFor="let provider of providers" [value]="provider">{{provider.Description}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <!--<mat-error *ngIf="requiredControl.hasError('required')">Заполните все обязательные поля</mat-error>-->
+  <!--<mat-hint>{{requiredControl.value?.sound}}</mat-hint>-->
+</mat-dialog-content>
+<mat-dialog-actions class="provider-buttons">
+  <button mat-raised-button color="accent" [mat-dialog-close]="true" (click)="saveProduct()">Сохранить</button>
+  <button mat-raised-button color="basic" mat-dialog-close (click)="cancelChanges()">Отменить</button>
+  <button mat-raised-button color="warn" *ngIf="dbOperation === DatabaseOperation.update" [mat-dialog-close]="true" (click)="deleteProduct()">Удалить</button>
+</mat-dialog-actions>

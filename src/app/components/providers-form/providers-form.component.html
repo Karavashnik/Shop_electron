@@ -1,16 +1,18 @@
-<div>
-  <h2>Добавление поставщика</h2>
-  <div class="provider-fields">
-    <mat-form-field><input placeholder="Описание" matInput type="text" [(ngModel)]="provider.Description" required></mat-form-field>
-    <mat-form-field><input placeholder="Адрес" matInput type="text" [(ngModel)]="provider.Address"></mat-form-field>
-    <mat-form-field><input placeholder="Телефон" matInput type="text" [(ngModel)]="provider.Phone"></mat-form-field>
-    <color-circle
-      [width]="1000"
-      (onChangeComplete)="changeComplete($event)"
-    ></color-circle>
-    <div class="provider-buttons">
-      <button mat-raised-button color="Accent" (click)="saveProvider()">Сохранить</button>
-      <button mat-raised-button color="Warn" (click)="onNoClick()">Отменить</button>
-    </div>
-  </div>
-</div>
+<h2 mat-dialog-title>Добавление поставщика</h2>
+<mat-dialog-content class="provider-fields">
+  <mat-form-field><input placeholder="Описание" matInput type="text" maxlength="500" [(ngModel)]="provider.Description" required></mat-form-field>
+  <mat-form-field><input placeholder="Адрес" matInput type="text" maxlength="255" [(ngModel)]="provider.Address"></mat-form-field>
+  <mat-form-field><input placeholder="Телефон" matInput type="tel" maxlength="20" [(ngModel)]="provider.Phone"></mat-form-field>
+  <color-circle
+    [width]="1200"
+    [circleSize]="50"
+    [color]="provider.Color"
+    (onChange)="changeColor($event)"
+  ></color-circle>
+</mat-dialog-content>
+<mat-dialog-actions class="provider-buttons">
+  <button mat-raised-button color="accent" [mat-dialog-close]="true" (click)="saveProvider()">Сохранить</button>
+  <button mat-raised-button color="basic" mat-dialog-close (click)="cancelChanges()">Отменить</button>
+  <button mat-raised-button color="warn" *ngIf="dbOperation === DatabaseOperation.update" [mat-dialog-close]="true" (click)="deleteProvider()">Удалить</button>
+</mat-dialog-actions>
+

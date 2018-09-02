@@ -1,4 +1,4 @@
-export class Filters{
+export class Filters {
   isFiltering: boolean;
   Id: number;
   Description: string;

@@ -22,8 +22,8 @@ import { ProductFormComponent } from './components/product-form/product-form.com
 import { ProvidersComponent } from './components/providers/providers.component';
 import { ProvidersFormComponent } from './components/providers-form/providers-form.component';
 import {ProvidersService} from './services/providers.service';
-import { ColorSketchModule } from 'ngx-color/sketch';
 import { ColorCircleModule } from 'ngx-color/circle';
+import { ConfirmationDialogComponent } from './components/confirmation-dialog/confirmation-dialog.component';
 
 @NgModule({
   declarations: [
@@ -34,11 +34,13 @@ import { ColorCircleModule } from 'ngx-color/circle';
     ProductsComponent,
     ProductFormComponent,
     ProvidersComponent,
-    ProvidersFormComponent
+    ProvidersFormComponent,
+    ConfirmationDialogComponent
   ],
   entryComponents: [
     ProductFormComponent,
-    ProvidersFormComponent
+    ProvidersFormComponent,
+    ConfirmationDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -57,7 +59,6 @@ import { ColorCircleModule } from 'ngx-color/circle';
     FormsModule,
     MatIconModule,
     MatDialogModule,
-    ColorSketchModule,
     ColorCircleModule
   ],
   exports: [
@@ -74,7 +75,6 @@ import { ColorCircleModule } from 'ngx-color/circle';
     FormsModule,
     MatIconModule,
     MatDialogModule,
-    ColorSketchModule,
     ColorCircleModule
   ],
   providers: [

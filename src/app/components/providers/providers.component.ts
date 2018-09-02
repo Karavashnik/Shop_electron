@@ -1,15 +1,16 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnChanges, OnInit, ViewChild} from '@angular/core';
 import {ProvidersService} from '../../services/providers.service';
 import {MatDialog, MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
 import {ProvidersModel} from '../../models/providers.model';
 import {ProvidersFormComponent} from '../providers-form/providers-form.component';
+import {ConfirmationDialogComponent} from '../confirmation-dialog/confirmation-dialog.component';
 
 @Component({
   selector: 'app-providers',
   templateUrl: './providers.component.html',
   styleUrls: ['./providers.component.css']
 })
-export class ProvidersComponent implements OnInit {
+export class ProvidersComponent implements OnInit, OnChanges {
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -25,6 +26,7 @@ export class ProvidersComponent implements OnInit {
     this.getTotalCount();
     this.getProviders();
   }
+  ngOnChanges() {}
 
   setPageSizeOptions() {
     this.paginator.pageIndex = 0;
@@ -66,12 +68,26 @@ export class ProvidersComponent implements OnInit {
   openDialog(provider: ProvidersModel): void {
     const dialogRef = this.dialog.open(ProvidersFormComponent, {
       width: '80%',
+      disableClose: true,
       data: provider
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
+      this.getProviders();
+    });
+  }
+  deleteProvider(provider: ProvidersModel): void {
+    let dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      width: '40%',
+      disableClose: false
+    });
+    dialogRef.componentInstance.confirmMessage = 'Вы действительно хотите удалить поставщика?';
 
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.providersService.deleteProvider(provider);
+      }
+      dialogRef = null;
     });
   }
 

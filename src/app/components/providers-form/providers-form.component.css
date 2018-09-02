@@ -4,3 +4,6 @@ mat-form-field{
 .provider-buttons{
   margin: 20px 0;
 }
+mat-dialog-content{
+  height: 25vh;
+}

@@ -10,7 +10,8 @@
         <div>No.</div>
       </th>
       <td mat-cell *matCellDef="let element" class="id-column">
-        <span>{{element.Id}}</span>
+        <span class="provider-color" [style.background-color]="element.Color"></span>
+        <span class="id-number">{{element.Id}}</span>
       </td>
     </ng-container>
 
@@ -45,7 +46,7 @@
         <button mat-button matSuffix mat-icon-button (click)="openDialog(element)">
           <mat-icon>edit</mat-icon>
         </button>
-        <button mat-button matSuffix mat-icon-button (click)="openDialog(element)">
+        <button mat-button matSuffix mat-icon-button (click)="deleteProvider(element)">
           <mat-icon>delete</mat-icon>
         </button>
       </td>

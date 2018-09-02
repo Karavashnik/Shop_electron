@@ -37,7 +37,7 @@ export class ProductsComponent implements OnInit  {
   }
 
   getTotalCount () {
-    this.productsService.getTotalCount().subscribe(
+    this.productsService.getTotalCount(this.filters).subscribe(
       (data) => {
         this.table.paginator.length = data.results[0].count;
       },
@@ -46,7 +46,7 @@ export class ProductsComponent implements OnInit  {
   }
 
   getProducts() {
-    this.productsService.getProducts(this.table).subscribe(
+    this.productsService.getProducts(this.table, this.filters).subscribe(
       (data) => {
         console.log(data.results);
         this.table.data = data.results;
@@ -57,11 +57,7 @@ export class ProductsComponent implements OnInit  {
   }
 
   onPaginationChange() {
-    if (!this.filters.isFiltering) {
-      this.getProducts();
-    } else {
-      this.filterData();
-    }
+    this.getProducts();
   }
   setPageSizeOptions() {
     this.paginator.pageIndex = 0;
@@ -81,7 +77,7 @@ export class ProductsComponent implements OnInit  {
       this.getProducts();
   }
   filterData() {
-    this.productsService.getFilterProducts(this.table, this.filters).subscribe(
+    this.productsService.getProducts(this.table, this.filters).subscribe(
       (data) => {
         this.table.data = data.results;
       }, (error) => {console.log('(error) error: ' + error); },
@@ -95,6 +91,7 @@ export class ProductsComponent implements OnInit  {
   openDialog(product: ProductsModel): void {
     const dialogRef = this.dialog.open(ProductFormComponent, {
       width: '80%',
+      disableClose: true,
       data: product
     });
 
