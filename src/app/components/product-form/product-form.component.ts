@@ -16,7 +16,7 @@ import {FormControl, Validators} from '@angular/forms';
 export class ProductFormComponent implements OnInit {
 
   DatabaseOperation: typeof DatabaseOperation = DatabaseOperation;
-
+  // todo Create formControl to validate required fields
   requiredControl = new FormControl('', [Validators.required]);
 
   product: ProductsModel;
@@ -38,7 +38,6 @@ export class ProductFormComponent implements OnInit {
 
   ngOnInit() {
     this.providersService.getAllProviders().subscribe( providers => this.providers = providers.results as Array<ProvidersModel>);
-    console.log(this.product.Provider);
   }
 
   saveProduct() {

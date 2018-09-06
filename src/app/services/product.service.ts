@@ -13,7 +13,7 @@ export class ProductService {
 
   getProducts(table: MatTableDataSource<ProductsModel>, filters: Filters):
     Observable<{results?: ProductsModel[], fields?: FieldInfo[]}> {
-    const sql = `select p.Id as Id, p.Description, p.Price, pr.Description as ProviderDescription, pr.Color, p.ProviderId
+    const sql = `select p.Id as Id, p.Description, p.Price, pr.Description as ProviderDescription, pr.Color, p.ProviderId as ProviderId
                 from products as p join providers as pr on p.ProviderId = pr.Id
                 where p.Id like '%${filters.Id ? filters.Id : ''}%' and
                       p.Description like '%${filters.Description ? filters.Description : ''}%' and
@@ -28,13 +28,13 @@ export class ProductService {
   }
   updateProduct(product: ProductsModel): void {
     const sql = `update products
-     set Description = '${product.Description}', Price = '${product.Price}', ProviderId = '${product.Provider.Id}'
+     set Description = '${product.Description}', Price = '${product.Price}', ProviderId = '${product.ProviderId}'
      where products.Id = ${product.Id}`;
     this.db.query(sql);
   }
   insertProduct(product: ProductsModel): void {
     const sql = `insert into products (Description, Price, ProviderId)
-     values ('${product.Description}', '${product.Price}', '${product.Provider.Id}')`;
+     values ('${product.Description}', '${product.Price}', '${product.ProviderId}')`;
     this.db.query(sql);
   }
   deleteProduct(product: ProductsModel): void {

@@ -5,6 +5,8 @@ import {SaleModel} from '../../models/sale.model';
 import {MatDialog, MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
 import {Filters, PriceRange} from '../../models/filters';
 import {ProductFormComponent} from '../product-form/product-form.component';
+import {ConfirmationDialogComponent} from '../confirmation-dialog/confirmation-dialog.component';
+import {ProvidersModel} from '../../models/providers.model';
 
 @Component({
   selector: 'app-products',
@@ -48,8 +50,8 @@ export class ProductsComponent implements OnInit  {
   getProducts() {
     this.productsService.getProducts(this.table, this.filters).subscribe(
       (data) => {
-        console.log(data.results);
         this.table.data = data.results;
+        console.log(this.table.data);
       },
       (error) => {console.log('(error) error: ' + error); },
       () => {console.log('(complete)'); });
@@ -98,6 +100,20 @@ export class ProductsComponent implements OnInit  {
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed');
       //this.animal = result;
+    });
+  }
+  deleteProduct(product: ProductsModel): void {
+    let dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      width: '40%',
+      disableClose: false
+    });
+    dialogRef.componentInstance.confirmMessage = 'Вы действительно хотите удалить товар?';
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.productsService.deleteProduct(product);
+      }
+      dialogRef = null;
     });
   }
   addToCard(product: ProductsModel, count: number) {

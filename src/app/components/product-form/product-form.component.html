@@ -3,8 +3,8 @@
   <mat-form-field><input matInput placeholder="Описание" type="text" maxlength="1000" [(ngModel)]="product.Description" required></mat-form-field>
   <mat-form-field><input matInput placeholder="Цена" type="number" maxlength="13,2" [(ngModel)]="product.Price" required></mat-form-field>
   <mat-form-field>
-    <mat-select placeholder="Поставщик" [(value)]="product.Provider" required >
-      <mat-option *ngFor="let provider of providers" [value]="provider">{{provider.Description}}</mat-option>
+    <mat-select placeholder="Поставщик" [(value)]="product.ProviderId" required >
+      <mat-option *ngFor="let provider of providers" [value]="provider.Id">{{provider.Description}}</mat-option>
     </mat-select>
   </mat-form-field>
   <!--<mat-error *ngIf="requiredControl.hasError('required')">Заполните все обязательные поля</mat-error>-->
