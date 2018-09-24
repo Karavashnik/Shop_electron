@@ -1,4 +1,4 @@
-import {Component, OnInit, EventEmitter, ViewChild} from '@angular/core';
+import {Component, OnInit, EventEmitter, ViewChild, ChangeDetectorRef} from '@angular/core';
 import {ProductService} from '../../services/product.service';
 import {ProductsModel} from '../../models/products.model';
 import {SaleModel} from '../../models/sale.model';
@@ -6,7 +6,6 @@ import {MatDialog, MatPaginator, MatSort, MatTableDataSource} from '@angular/mat
 import {Filters, PriceRange} from '../../models/filters';
 import {ProductFormComponent} from '../product-form/product-form.component';
 import {ConfirmationDialogComponent} from '../confirmation-dialog/confirmation-dialog.component';
-import {ProvidersModel} from '../../models/providers.model';
 
 @Component({
   selector: 'app-products',
@@ -26,7 +25,8 @@ export class ProductsComponent implements OnInit  {
   filters: Filters;
   onAddToCard = new EventEmitter<SaleModel>();
 
-  constructor(private readonly productsService: ProductService, public dialog: MatDialog) {
+  constructor(private readonly productsService: ProductService, public dialog: MatDialog,
+              private changeDetectorRefs: ChangeDetectorRef) {
 
   }
 
@@ -51,11 +51,9 @@ export class ProductsComponent implements OnInit  {
     this.productsService.getProducts(this.table, this.filters).subscribe(
       (data) => {
         this.table.data = data.results;
-        console.log(this.table.data);
       },
       (error) => {console.log('(error) error: ' + error); },
-      () => {console.log('(complete)'); });
-    this.table._updateChangeSubscription();
+      () => {console.log('(complete)'); this.changeDetectorRefs.detectChanges(); });
   }
 
   onPaginationChange() {

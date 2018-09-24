@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
 import {MatDialogRef} from '@angular/material';
 
 @Component({
@@ -6,13 +6,18 @@ import {MatDialogRef} from '@angular/material';
   templateUrl: './confirmation-dialog.component.html',
   styleUrls: ['./confirmation-dialog.component.css']
 })
-export class ConfirmationDialogComponent implements OnInit {
+export class ConfirmationDialogComponent implements OnInit, OnDestroy {
 
   public confirmMessage: string;
 
-  constructor(public dialogRef: MatDialogRef<ConfirmationDialogComponent>) { }
+  constructor(public dialogRef: MatDialogRef<ConfirmationDialogComponent>, private ref: ChangeDetectorRef) {
+
+  }
 
   ngOnInit() {
+
+  }
+  ngOnDestroy() {
   }
 
 }

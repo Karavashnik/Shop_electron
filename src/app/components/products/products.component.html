@@ -1,4 +1,4 @@
-<div class="table-wrapper">
+<div class="table-wrapper" >
   <table mat-table matSort [dataSource]="table.data" class="mat-elevation-z8" (matSortChange)="sortData($event)">
 
     <!--- Note that these columns can be defined in any order.
@@ -136,7 +136,6 @@
         class="second-header-row">
     </tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-
   </table>
 </div>
 <mat-paginator
@@ -147,3 +146,4 @@
   (page)="onPaginationChange()"
   showFirstLastButtons>
 </mat-paginator>
+

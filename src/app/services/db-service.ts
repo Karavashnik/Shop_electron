@@ -12,7 +12,7 @@ export class DbService {
       host: 'localhost',
       user: 'root',
       password: '12345',
-      database: 'shopmanagment'
+      database: 'shopmanagement'
     });
     this.connection.connect((err) => {
       if (err) {

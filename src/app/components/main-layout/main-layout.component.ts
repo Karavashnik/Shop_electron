@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {ChangeDetectorRef, Component, OnInit, ViewChild} from '@angular/core';
 import {ProductsComponent} from '../products/products.component';
 import {CurrentSaleComponent} from '../current-sale/current-sale.component';
 
@@ -11,12 +11,18 @@ export class MainLayoutComponent implements OnInit {
   @ViewChild('appProducts') appProducts: ProductsComponent;
   @ViewChild('appCurrentSale') appCurrentSale: CurrentSaleComponent;
 
-  constructor() { }
+  constructor(private changeDetectorRefs: ChangeDetectorRef) { }
 
   ngOnInit() {
     this.appProducts.onAddToCard.subscribe(sale => {
-      this.appCurrentSale.sales.data.push(sale);
+      const findSale = this.appCurrentSale.sales.data.find(find =>  find.Product.Id === sale.Product.Id);
+      if (findSale) {
+        findSale.Count += sale.Count;
+      } else {
+        this.appCurrentSale.sales.data.push(sale);
+      }
       this.appCurrentSale.sales._updateChangeSubscription();
+      this.changeDetectorRefs.detectChanges();
     });
   }
 

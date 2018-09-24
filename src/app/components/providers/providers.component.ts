@@ -1,4 +1,4 @@
-import {Component, OnChanges, OnInit, ViewChild} from '@angular/core';
+import {ChangeDetectorRef, Component, OnChanges, OnInit, ViewChild} from '@angular/core';
 import {ProvidersService} from '../../services/providers.service';
 import {MatDialog, MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
 import {ProvidersModel} from '../../models/providers.model';
@@ -18,7 +18,8 @@ export class ProvidersComponent implements OnInit, OnChanges {
   displayedColumns: string[] = ['Id', 'Description', 'Address', 'Phone', 'Edit'];
   table: MatTableDataSource<ProvidersModel>;
 
-  constructor(private readonly providersService: ProvidersService, public dialog: MatDialog) { }
+  constructor(private readonly providersService: ProvidersService, public dialog: MatDialog,
+              private changeDetectorRefs: ChangeDetectorRef) { }
 
   ngOnInit() {
     this.table = new MatTableDataSource<ProvidersModel>();
@@ -57,8 +58,10 @@ export class ProvidersComponent implements OnInit, OnChanges {
         this.table.data = data.results;
       },
       (error) => {console.log('(error) error: ' + error); },
-      () => {console.log('(complete)'); });
-    this.table._updateChangeSubscription();
+      () => {console.log('(complete)');
+        this.table._updateChangeSubscription();
+        this.changeDetectorRefs.detectChanges();
+      });
   }
   sortData(event: MatSort) {
     this.table.sort.direction = event.direction;
@@ -86,6 +89,7 @@ export class ProvidersComponent implements OnInit, OnChanges {
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         this.providersService.deleteProvider(provider);
+        this.getProviders();
       }
       dialogRef = null;
     });

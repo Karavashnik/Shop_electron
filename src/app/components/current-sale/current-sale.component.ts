@@ -1,4 +1,4 @@
-import {Component, OnInit } from '@angular/core';
+import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {DiscountType, SaleModel} from '../../models/sale.model';
 import {MatTableDataSource} from '@angular/material';
 
@@ -15,7 +15,7 @@ export class CurrentSaleComponent implements OnInit {
   displayedColumns: string[] = ['Id', 'Description', 'Price', 'DiscountPrice', 'Count', 'TotalPrice'];
   sales: MatTableDataSource<SaleModel>;
 
-  constructor() {
+  constructor(private changeDetectorRefs: ChangeDetectorRef) {
     this.sales = new MatTableDataSource<SaleModel>();
 
   }

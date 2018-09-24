@@ -112,3 +112,8 @@ input::-webkit-inner-spin-button {
 .second-header-row th{
   height: 5vh;
 }
+.spinner{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

@@ -24,6 +24,8 @@ import { ProvidersFormComponent } from './components/providers-form/providers-fo
 import {ProvidersService} from './services/providers.service';
 import { ColorCircleModule } from 'ngx-color/circle';
 import { ConfirmationDialogComponent } from './components/confirmation-dialog/confirmation-dialog.component';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import {MatCardModule} from '@angular/material/card';
 
 @NgModule({
   declarations: [
@@ -59,7 +61,9 @@ import { ConfirmationDialogComponent } from './components/confirmation-dialog/co
     FormsModule,
     MatIconModule,
     MatDialogModule,
-    ColorCircleModule
+    ColorCircleModule,
+    MatProgressSpinnerModule,
+    MatCardModule
   ],
   exports: [
     MatToolbarModule,
@@ -75,7 +79,9 @@ import { ConfirmationDialogComponent } from './components/confirmation-dialog/co
     FormsModule,
     MatIconModule,
     MatDialogModule,
-    ColorCircleModule
+    ColorCircleModule,
+    MatProgressSpinnerModule,
+    MatCardModule
   ],
   providers: [
     { provide: MatPaginatorIntl, useClass: MatPaginatorIntlCro},
