@@ -1,11 +1,12 @@
-import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {DiscountType, SaleModel} from '../../models/sale.model';
 import {MatTableDataSource} from '@angular/material';
 
 @Component({
   selector: 'app-current-sale',
   templateUrl: './current-sale.component.html',
-  styleUrls: ['./current-sale.component.css']
+  styleUrls: ['./current-sale.component.css'],
+  changeDetection: ChangeDetectionStrategy.Default
 })
 
 export class CurrentSaleComponent implements OnInit {
@@ -15,11 +16,12 @@ export class CurrentSaleComponent implements OnInit {
   displayedColumns: string[] = ['Id', 'Description', 'Price', 'DiscountPrice', 'Count', 'TotalPrice'];
   sales: MatTableDataSource<SaleModel>;
 
-  constructor(private changeDetectorRefs: ChangeDetectorRef) {
+  constructor() {
     this.sales = new MatTableDataSource<SaleModel>();
-
   }
+
   ngOnInit() {
+
   }
   increaseCount(element: SaleModel) {
     element.Count++;

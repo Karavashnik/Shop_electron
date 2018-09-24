@@ -11,8 +11,8 @@ export class DbService {
     this.connection = mysql.createConnection({
       host: 'localhost',
       user: 'root',
-      password: '12345',
-      database: 'shopmanagement'
+      password: 'werewolf2012',
+      database: 'shopmanagment'
     });
     this.connection.connect((err) => {
       if (err) {

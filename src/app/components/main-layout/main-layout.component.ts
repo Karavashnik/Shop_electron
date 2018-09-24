@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {ProductsComponent} from '../products/products.component';
 import {CurrentSaleComponent} from '../current-sale/current-sale.component';
 
@@ -11,7 +11,7 @@ export class MainLayoutComponent implements OnInit {
   @ViewChild('appProducts') appProducts: ProductsComponent;
   @ViewChild('appCurrentSale') appCurrentSale: CurrentSaleComponent;
 
-  constructor(private changeDetectorRefs: ChangeDetectorRef) { }
+  constructor() { }
 
   ngOnInit() {
     this.appProducts.onAddToCard.subscribe(sale => {
@@ -22,7 +22,8 @@ export class MainLayoutComponent implements OnInit {
         this.appCurrentSale.sales.data.push(sale);
       }
       this.appCurrentSale.sales._updateChangeSubscription();
-      this.changeDetectorRefs.detectChanges();
+      //this.changeDetectorRefs.markForCheck();
+      //this.changeDetectorRefs.detectChanges();
     });
   }
 

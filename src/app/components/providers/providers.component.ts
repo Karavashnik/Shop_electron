@@ -60,7 +60,7 @@ export class ProvidersComponent implements OnInit, OnChanges {
       (error) => {console.log('(error) error: ' + error); },
       () => {console.log('(complete)');
         this.table._updateChangeSubscription();
-        this.changeDetectorRefs.detectChanges();
+        //this.changeDetectorRefs.detectChanges();
       });
   }
   sortData(event: MatSort) {

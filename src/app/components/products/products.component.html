@@ -1,5 +1,5 @@
 <div class="table-wrapper" >
-  <table mat-table matSort [dataSource]="table.data" class="mat-elevation-z8" (matSortChange)="sortData($event)">
+  <table mat-table matSort [dataSource]="tableDataSource.data" class="mat-elevation-z8" (matSortChange)="sortData($event)">
 
     <!--- Note that these columns can be defined in any order.
           The actual rendered columns are set as a property on the row definition" -->
@@ -139,10 +139,10 @@
   </table>
 </div>
 <mat-paginator
-  [length]="table.paginator.length"
-  [pageSize]="table.paginator.pageSize"
-  [pageSizeOptions]="table.paginator.pageSizeOptions"
-  [pageIndex]="table.paginator.pageIndex"
+  [length]="paginator.length"
+  [pageSize]="paginator.pageSize"
+  [pageSizeOptions]="paginator.pageSizeOptions"
+  [pageIndex]="paginator.pageIndex"
   (page)="onPaginationChange()"
   showFirstLastButtons>
 </mat-paginator>
