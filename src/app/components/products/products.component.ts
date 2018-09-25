@@ -1,4 +1,4 @@
-import {Component, EventEmitter, OnInit, ViewChild} from '@angular/core';
+import {Component, EventEmitter, OnInit, AfterViewInit, ViewChild, ChangeDetectorRef} from '@angular/core';
 import {ProductService} from '../../services/product.service';
 import {ProductsModel} from '../../models/products.model';
 import {SaleModel} from '../../models/sale.model';
@@ -12,7 +12,7 @@ import {ConfirmationDialogComponent} from '../confirmation-dialog/confirmation-d
   templateUrl: './products.component.html',
   styleUrls: ['./products.component.css']
 })
-export class ProductsComponent implements OnInit  {
+export class ProductsComponent implements OnInit, AfterViewInit  {
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -25,8 +25,10 @@ export class ProductsComponent implements OnInit  {
   tableDataSource: MatTableDataSource<ProductsModel>;
   filters: Filters;
   onAddToCard = new EventEmitter<SaleModel>();
+  isLoadingResults = true;
 
-  constructor(private readonly productsService: ProductService, public dialog: MatDialog) {
+  constructor(private readonly productsService: ProductService, public dialog: MatDialog,
+              private  changeDetectorRefs: ChangeDetectorRef) {
   }
 
   ngOnInit() {
@@ -38,7 +40,12 @@ export class ProductsComponent implements OnInit  {
     this.getTotalCount();
     this.getProducts();
   }
-
+  ngAfterViewInit() {
+    setInterval(() => {
+      // require view to be updated
+      this.changeDetectorRefs.markForCheck();
+    }, 500);
+  }
 
   getTotalCount () {
     this.productsService.getTotalCount(this.filters).subscribe(
@@ -50,12 +57,19 @@ export class ProductsComponent implements OnInit  {
   }
 
   getProducts() {
+    this.isLoadingResults = true;
     this.productsService.getProducts(this.tableDataSource, this.filters).subscribe(
       (data) => {
         this.tableDataSource.data = data.results;
       },
       (error) => {console.log('(error) error: ' + error); },
-      () => {console.log('(complete)'); this.table.renderRows(); });
+      () => {console.log('(complete)');
+        this.refresh();
+        this.isLoadingResults = false;
+      });
+  }
+  refresh() {
+    this.table.renderRows();
   }
 
   onPaginationChange() {
@@ -77,18 +91,6 @@ export class ProductsComponent implements OnInit  {
       this.sort.direction = event.direction;
       this.sort.active = event.active;
       this.getProducts();
-  }
-  filterData() {
-    this.productsService.getProducts(this.tableDataSource, this.filters).subscribe(
-      (data) => {
-        this.tableDataSource.data = data.results;
-      }, (error) => {console.log('(error) error: ' + error); },
-      () => {console.log('(complete)'); });
-    this.filters.isFiltering = true;
-    //this.table._updateChangeSubscription();
-  }
-  removeFilterData() {
-    //this.isFiltering = false;
   }
   openDialog(product: ProductsModel): void {
     const dialogRef = this.dialog.open(ProductFormComponent, {

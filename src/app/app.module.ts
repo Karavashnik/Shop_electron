@@ -26,6 +26,8 @@ import { ColorCircleModule } from 'ngx-color/circle';
 import { ConfirmationDialogComponent } from './components/confirmation-dialog/confirmation-dialog.component';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatCardModule} from '@angular/material/card';
+import {SalesService} from './services/sales.service';
+import {DatePipe} from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -85,9 +87,11 @@ import {MatCardModule} from '@angular/material/card';
   ],
   providers: [
     { provide: MatPaginatorIntl, useClass: MatPaginatorIntlCro},
+    DatePipe,
     DbService,
     ProductService,
-    ProvidersService
+    ProvidersService,
+    SalesService
   ],
   bootstrap: [AppComponent]
 })

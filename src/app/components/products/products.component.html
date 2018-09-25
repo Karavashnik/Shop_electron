@@ -1,3 +1,7 @@
+<div class="loading-shade"
+     *ngIf="isLoadingResults">
+  <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+</div>
 <div class="table-wrapper" >
   <table mat-table matSort [dataSource]="tableDataSource.data" class="mat-elevation-z8" (matSortChange)="sortData($event)">
 
@@ -76,8 +80,8 @@
     <ng-container matColumnDef="No-filter">
       <th mat-header-cell *matHeaderCellDef class="id-column">
         <mat-form-field class="id-filter-form">
-          <input placeholder="поиск по id" matInput type="number" (keyup.enter)="filterData()"  [(ngModel)]="filters.Id">
-          <button mat-button *ngIf="filters.Id" matSuffix mat-icon-button aria-label="Clear" (click)="filters.Id=null; filterData()">
+          <input placeholder="поиск по id" matInput type="number" (keyup.enter)="getProducts()"  [(ngModel)]="filters.Id">
+          <button mat-button *ngIf="filters.Id" matSuffix mat-icon-button aria-label="Clear" (click)="filters.Id=null; getProducts()">
             <mat-icon>close</mat-icon>
           </button>
         </mat-form-field>
@@ -87,8 +91,8 @@
     <ng-container matColumnDef="Description-filter">
       <th mat-header-cell *matHeaderCellDef class="description-column">
         <mat-form-field class="description-filter-form">
-          <input placeholder="поиск по описанию" matInput type="text" (keyup.enter)="filterData()" [(ngModel)]="filters.Description">
-          <button mat-button *ngIf="filters.Description" matSuffix mat-icon-button aria-label="Clear" (click)="filters.Description=null; filterData()">
+          <input placeholder="поиск по описанию" matInput type="text" (keyup.enter)="getProducts()" [(ngModel)]="filters.Description">
+          <button mat-button *ngIf="filters.Description" matSuffix mat-icon-button aria-label="Clear" (click)="filters.Description=null; getProducts()">
             <mat-icon>close</mat-icon>
           </button>
         </mat-form-field>
@@ -99,8 +103,8 @@
       <th mat-header-cell *matHeaderCellDef class="price-column">
         <div>
           <mat-form-field class="price-filter-form">
-            <input placeholder="поиск по цене" matInput type="number" (keyup.enter)="filterData()" [(ngModel)]="filters.Price">
-            <button mat-button *ngIf="filters.Price" matSuffix mat-icon-button aria-label="Clear" (click)="filters.Price=null; filterData()">
+            <input placeholder="поиск по цене" matInput type="number" (keyup.enter)="getProducts()" [(ngModel)]="filters.Price">
+            <button mat-button *ngIf="filters.Price" matSuffix mat-icon-button aria-label="Clear" (click)="filters.Price=null; getProducts()">
               <mat-icon>close</mat-icon>
             </button>
           </mat-form-field>
@@ -118,8 +122,8 @@
     <ng-container matColumnDef="ProviderDescription-filter">
       <th mat-header-cell *matHeaderCellDef class="provider-description-column">
         <mat-form-field class="provider-description-filter-form">
-          <input placeholder="поиск по поставщику" matInput type="text" (keyup.enter)="filterData()" [(ngModel)]="filters.ProviderDescription">
-          <button mat-button *ngIf="filters.ProviderDescription" matSuffix mat-icon-button aria-label="Clear" (click)="filters.ProviderDescription=null; filterData()">
+          <input placeholder="поиск по поставщику" matInput type="text" (keyup.enter)="getProducts()" [(ngModel)]="filters.ProviderDescription">
+          <button mat-button *ngIf="filters.ProviderDescription" matSuffix mat-icon-button aria-label="Clear" (click)="filters.ProviderDescription=null; getProducts()">
             <mat-icon>close</mat-icon>
           </button>
         </mat-form-field>

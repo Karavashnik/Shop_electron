@@ -1,5 +1,5 @@
 <div class="table-wrapper">
-  <table mat-table matSort [dataSource]="sales" class="mat-elevation-z8">
+  <table mat-table [dataSource]="sales" class="mat-elevation-z8">
 
     <!--- Note that these columns can be defined in any order.
           The actual rendered columns are set as a property on the row definition" -->
@@ -7,8 +7,13 @@
     <!-- Id Column -->
     <ng-container matColumnDef="Id">
       <th mat-header-cell *matHeaderCellDef class="id-column">№<th>
-      <td mat-cell *matCellDef="let element" class="id-column">{{element.Product.Id}}</td>
-      <td mat-footer-cell *matFooterCellDef class="id-column"></td>
+      <td mat-cell *matCellDef="let element" class="id-column">
+      <button mat-button mat-icon-button (click)="removeSell(element)"><mat-icon>close</mat-icon></button>
+      <span>{{element.Product.Id}}</span>
+      </td>
+      <td mat-footer-cell *matFooterCellDef class="id-column">
+        <button class="sell-button" mat-raised-button color="primary" (click)="sellProducts()">Продать</button>
+      </td>
     </ng-container>
 
     <!-- Description Column -->
@@ -29,7 +34,7 @@
     <ng-container matColumnDef="DiscountPrice">
       <th mat-header-cell *matHeaderCellDef class="discount-price-column">Скидка</th>
       <td mat-cell *matCellDef="let element" class="discount-price-column">
-        <mat-form-field class="count-form">
+        <mat-form-field class="discount-form">
           <input matInput type="number" minlength="1" *ngIf="element.DiscountType === DiscountType.Percent"
                  [(ngModel)]="element.DiscountPercent">
           <input matInput type="number" minlength="1" *ngIf="element.DiscountType === DiscountType.NewPrice"

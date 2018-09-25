@@ -1,6 +1,9 @@
 import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {DiscountType, SaleModel} from '../../models/sale.model';
 import {MatTableDataSource} from '@angular/material';
+import {ProductService} from '../../services/product.service';
+import {SalesService} from '../../services/sales.service';
+import {forEach} from '@angular/router/src/utils/collection';
 
 @Component({
   selector: 'app-current-sale',
@@ -16,7 +19,7 @@ export class CurrentSaleComponent implements OnInit {
   displayedColumns: string[] = ['Id', 'Description', 'Price', 'DiscountPrice', 'Count', 'TotalPrice'];
   sales: MatTableDataSource<SaleModel>;
 
-  constructor() {
+  constructor(private readonly salesService: SalesService) {
     this.sales = new MatTableDataSource<SaleModel>();
   }
 
@@ -42,5 +45,14 @@ export class CurrentSaleComponent implements OnInit {
     }
     return totalCost;
   }
+  removeSell(element: SaleModel) {
+    this.sales.data = this.sales.data.filter(sale => sale !== element );
+  }
+  sellProducts() {
+    this.sales.data.forEach( sale => this.salesService.insertSale(sale));
+    this.sales.data = [];
+  }
+
+
 }
 

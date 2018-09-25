@@ -1,3 +1,7 @@
+<div class="loading-shade"
+     *ngIf="isLoadingResults">
+  <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+</div>
 <div class="table-wrapper">
   <table mat-table matSort [dataSource]="table.data" class="mat-elevation-z8" (matSortChange)="sortData($event)">
 

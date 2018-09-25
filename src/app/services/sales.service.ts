@@ -1,13 +1,16 @@
 import {Injectable} from '@angular/core';
-import {ProductsModel} from '../models/products.model';
-import {Observable} from 'rxjs';
+import {DbService} from './db-service';
 import {SaleModel} from '../models/sale.model';
-import {ProductService} from './product.service';
+import {DatePipe} from '@angular/common';
 
 @Injectable()
 export class SalesService {
-  Sales: Observable<SaleModel>;
-  constructor(products: ProductService){
+  constructor(private readonly db: DbService, private datePipe: DatePipe) {
 
+  }
+  insertSale(sale: SaleModel): void {
+    const sql = `insert into sales (Price, ProductId, SaleDate, Count)
+     values ('${sale.NewPrice}', '${sale.Product.Id}', '${this.datePipe.transform(Date.now(), 'yyyy-MM-dd H:m:s') }', '${sale.Count}')`;
+    this.db.query(sql);
   }
 }

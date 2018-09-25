@@ -17,6 +17,7 @@ export class ProvidersComponent implements OnInit, OnChanges {
 
   displayedColumns: string[] = ['Id', 'Description', 'Address', 'Phone', 'Edit'];
   table: MatTableDataSource<ProvidersModel>;
+  isLoadingResults = true;
 
   constructor(private readonly providersService: ProvidersService, public dialog: MatDialog,
               private changeDetectorRefs: ChangeDetectorRef) { }
@@ -52,6 +53,7 @@ export class ProvidersComponent implements OnInit, OnChanges {
   }
 
   getProviders() {
+    this.isLoadingResults = true;
     this.providersService.getProviders(this.table).subscribe(
       (data) => {
         console.log(data.results);
@@ -59,8 +61,7 @@ export class ProvidersComponent implements OnInit, OnChanges {
       },
       (error) => {console.log('(error) error: ' + error); },
       () => {console.log('(complete)');
-        this.table._updateChangeSubscription();
-        //this.changeDetectorRefs.detectChanges();
+        this.isLoadingResults = false;
       });
   }
   sortData(event: MatSort) {
