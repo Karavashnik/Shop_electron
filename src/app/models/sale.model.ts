@@ -8,7 +8,8 @@ export class SaleModel {
     this.DiscountType = DiscountType.Percent;
   }
   Product: ProductsModel;
-
+  Id: number;
+  SaleDate: Date;
   private _count: number = null;
   private _discountPercent: number = null;
   private _discountPrice: number = null;

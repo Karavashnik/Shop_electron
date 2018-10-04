@@ -1,4 +1,4 @@
-import {Component, EventEmitter, OnInit, AfterViewInit, ViewChild, ChangeDetectorRef} from '@angular/core';
+import {Component, EventEmitter, OnInit, ViewChild} from '@angular/core';
 import {ProductService} from '../../services/product.service';
 import {ProductsModel} from '../../models/products.model';
 import {SaleModel} from '../../models/sale.model';
@@ -12,7 +12,7 @@ import {ConfirmationDialogComponent} from '../confirmation-dialog/confirmation-d
   templateUrl: './products.component.html',
   styleUrls: ['./products.component.css']
 })
-export class ProductsComponent implements OnInit, AfterViewInit  {
+export class ProductsComponent implements OnInit  {
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -27,8 +27,7 @@ export class ProductsComponent implements OnInit, AfterViewInit  {
   onAddToCard = new EventEmitter<SaleModel>();
   isLoadingResults = true;
 
-  constructor(private readonly productsService: ProductService, public dialog: MatDialog,
-              private  changeDetectorRefs: ChangeDetectorRef) {
+  constructor(private readonly productsService: ProductService, public dialog: MatDialog) {
   }
 
   ngOnInit() {
@@ -39,12 +38,6 @@ export class ProductsComponent implements OnInit, AfterViewInit  {
     this.filters = new Filters();
     this.getTotalCount();
     this.getProducts();
-  }
-  ngAfterViewInit() {
-    setInterval(() => {
-      // require view to be updated
-      this.changeDetectorRefs.markForCheck();
-    }, 500);
   }
 
   getTotalCount () {

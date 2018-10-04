@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {ChangeDetectorRef, Component, OnInit, ViewChild} from '@angular/core';
 import {ProductsComponent} from '../products/products.component';
 import {CurrentSaleComponent} from '../current-sale/current-sale.component';
 
@@ -11,9 +11,13 @@ export class MainLayoutComponent implements OnInit {
   @ViewChild('appProducts') appProducts: ProductsComponent;
   @ViewChild('appCurrentSale') appCurrentSale: CurrentSaleComponent;
 
-  constructor() { }
+  constructor(private  changeDetectorRefs: ChangeDetectorRef) { }
 
   ngOnInit() {
+    setInterval(() => {
+      // require view to be updated
+      this.changeDetectorRefs.markForCheck();
+    }, 500);
     this.appProducts.onAddToCard.subscribe(sale => {
       const findSale = this.appCurrentSale.sales.data.find(find =>  find.Product.Id === sale.Product.Id);
       if (findSale) {
@@ -22,8 +26,6 @@ export class MainLayoutComponent implements OnInit {
         this.appCurrentSale.sales.data.push(sale);
       }
       this.appCurrentSale.sales._updateChangeSubscription();
-      //this.changeDetectorRefs.markForCheck();
-      //this.changeDetectorRefs.detectChanges();
     });
   }
 

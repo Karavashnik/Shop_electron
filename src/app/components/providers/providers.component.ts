@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Component, OnChanges, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {ProvidersService} from '../../services/providers.service';
 import {MatDialog, MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
 import {ProvidersModel} from '../../models/providers.model';
@@ -10,7 +10,7 @@ import {ConfirmationDialogComponent} from '../confirmation-dialog/confirmation-d
   templateUrl: './providers.component.html',
   styleUrls: ['./providers.component.css']
 })
-export class ProvidersComponent implements OnInit, OnChanges {
+export class ProvidersComponent implements OnInit {
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -19,8 +19,7 @@ export class ProvidersComponent implements OnInit, OnChanges {
   table: MatTableDataSource<ProvidersModel>;
   isLoadingResults = true;
 
-  constructor(private readonly providersService: ProvidersService, public dialog: MatDialog,
-              private changeDetectorRefs: ChangeDetectorRef) { }
+  constructor(private readonly providersService: ProvidersService, public dialog: MatDialog) { }
 
   ngOnInit() {
     this.table = new MatTableDataSource<ProvidersModel>();
@@ -28,7 +27,6 @@ export class ProvidersComponent implements OnInit, OnChanges {
     this.getTotalCount();
     this.getProviders();
   }
-  ngOnChanges() {}
 
   setPageSizeOptions() {
     this.paginator.pageIndex = 0;
